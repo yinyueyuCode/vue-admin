@@ -10,11 +10,6 @@
 <!--        数据安全交换平台-->
 <!--      </div>-->
 <!--    </div>-->
-    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container"
-               @toggleClick="toggleSideBar"/>
-
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
-
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item"/>
@@ -44,20 +39,12 @@
   import {mapGetters} from 'vuex'
   import Breadcrumb from '@/components/Breadcrumb'
   import Hamburger from '@/components/Hamburger'
-  // import ErrorLog from '@/components/ErrorLog'
-  // import Screenfull from '@/components/Screenfull'
-  // import SizeSelect from '@/components/SizeSelect'
-  // import LangSelect from '@/components/LangSelect'
   import Search from '@/components/HeaderSearch'
 
   export default {
     components: {
       Breadcrumb,
       Hamburger,
-      // ErrorLog,
-      // Screenfull,
-      // SizeSelect,
-      // LangSelect,
       Search
     },
     data() {

@@ -16,6 +16,11 @@
           </ul>
         </div>
       <div class="right-warp">
+        <!--侧边栏click menu-->
+        <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container"
+                   @toggleClick="toggleSideBar"/>
+        <!--面包屑导航-->
+        <breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
           <app-main/>
         </div>
       <right-panel v-if="showSettings">
@@ -30,6 +35,8 @@
   import {AppMain, Navbar, Settings, Sidebar} from './components'
   import ResizeMixin from './mixin/ResizeHandler'
   import {mapState} from 'vuex'
+  import Hamburger from '@/components/Hamburger'
+  import Breadcrumb from '@/components/Breadcrumb'
 
   export default {
     name: 'Layout',
@@ -38,7 +45,10 @@
       Navbar,
       RightPanel,
       Settings,
-      Sidebar
+      Sidebar,
+      Hamburger,
+      Breadcrumb
+
     },
     mixins: [ResizeMixin],
     data() {
@@ -75,6 +85,9 @@
       }
     },
     methods: {
+      toggleSideBar() {
+        this.$store.dispatch('app/toggleSideBar')
+      },
       handleClickOutside() {
         this.$store.dispatch('app/closeSideBar', {withoutAnimation: false})
       },
@@ -167,5 +180,18 @@
   .right-warp {
     float: right;
     width: 86%;
+  }
+
+  .hamburger-container {
+    line-height: 46px;
+    height: 100%;
+    float: left;
+    cursor: pointer;
+    transition: background .3s;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+      background: rgba(0, 0, 0, .025)
+    }
   }
 </style>
