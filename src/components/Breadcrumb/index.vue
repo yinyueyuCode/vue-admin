@@ -11,71 +11,71 @@
 </template>
 
 <script>
-import { generateTitle } from '@/utils/i18n'
-import pathToRegexp from 'path-to-regexp'
+  import {generateTitle} from '@/utils/i18n'
+  import pathToRegexp from 'path-to-regexp'
 
-export default {
-  data() {
-    return {
-      levelList: null
-    }
-  },
-  watch: {
-    $route() {
+  export default {
+    data() {
+      return {
+        levelList: null
+      }
+    },
+    watch: {
+      $route() {
+        this.getBreadcrumb()
+      }
+    },
+    created() {
       this.getBreadcrumb()
-    }
-  },
-  created() {
-    this.getBreadcrumb()
-  },
-  methods: {
-    generateTitle,
-    getBreadcrumb() {
-      // only show routes with meta.title
-      let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
-      const first = matched[0]
+    },
+    methods: {
+      generateTitle,
+      getBreadcrumb() {
+        // only show routes with meta.title
+        let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+        const first = matched[0]
 
-      if (!this.isDashboard(first)) {
-        matched = [{ path: '/dashboard', meta: { title: 'dashboard' }}].concat(matched)
-      }
+        if (!this.isDashboard(first)) {
+          matched = [{path: '/dashboard', meta: {title: 'dashboard'}}].concat(matched)
+        }
 
-      this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-    },
-    isDashboard(route) {
-      const name = route && route.name
-      if (!name) {
-        return false
+        this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      },
+      isDashboard(route) {
+        const name = route && route.name
+        if (!name) {
+          return false
+        }
+        return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+      },
+      pathCompile(path) {
+        // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
+        const {params} = this.$route
+        var toPath = pathToRegexp.compile(path)
+        return toPath(params)
+      },
+      handleLink(item) {
+        const {redirect, path} = item
+        if (redirect) {
+          this.$router.push(redirect)
+          return
+        }
+        this.$router.push(this.pathCompile(path))
       }
-      return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
-    },
-    pathCompile(path) {
-      // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
-      const { params } = this.$route
-      var toPath = pathToRegexp.compile(path)
-      return toPath(params)
-    },
-    handleLink(item) {
-      const { redirect, path } = item
-      if (redirect) {
-        this.$router.push(redirect)
-        return
-      }
-      this.$router.push(this.pathCompile(path))
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-.app-breadcrumb.el-breadcrumb {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 50px;
-  margin-left: 8px;
+  .app-breadcrumb.el-breadcrumb {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 50px;
+    margin-left: 8px;
 
-  .no-redirect {
-    color: #97a8be;
-    cursor: text;
+    .no-redirect {
+      color: #F45650 !important;
+      cursor: text;
+    }
   }
-}
 </style>
