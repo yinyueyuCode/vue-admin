@@ -1,7 +1,7 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
-    <div :class="{'fixed-header':fixedHeader}">
+    <div  class="fixed-header">
       <navbar/>
     </div>
     <sidebar class="sidebar-container"/>
@@ -140,7 +140,7 @@
   }
 
   .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
+    width: 100%;
   }
 
   .mobile .fixed-header {
