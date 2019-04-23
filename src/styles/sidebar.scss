@@ -1,7 +1,8 @@
 #app {
 
   .main-container {
-    min-height: 100%;
+    //min-height: 100%;
+    height: calc(100vh - 50px);
     transition: margin-left .28s;
     margin-left: $sideBarWidth;
     position: relative;

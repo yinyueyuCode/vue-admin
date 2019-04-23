@@ -1,60 +1,94 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+    <sidebar class="sidebar-container"/>
     <div :class="{hasTagsView:needTagsView}" class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
-        <tags-view v-if="needTagsView" />
+        <navbar/>
+        <div class="left-warp">
+          <ul>
+            <li v-for="(item,index) in leftArr" @click="clickTab(item,index)"
+                :class="{'active':item.flag===true}" :key="index">
+              {{item.text}}
+            </li>
+          </ul>
+        </div>
+        <div class="right-warp">
+          <app-main/>
+        </div>
+        <!--        <tags-view v-if="needTagsView" />-->
       </div>
-      <app-main />
       <right-panel v-if="showSettings">
-        <settings />
+        <settings/>
       </right-panel>
     </div>
   </div>
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
-import { mapState } from 'vuex'
+  import RightPanel from '@/components/RightPanel'
+  import {AppMain, Navbar, Settings, Sidebar} from './components'
+  import ResizeMixin from './mixin/ResizeHandler'
+  import {mapState} from 'vuex'
 
-export default {
-  name: 'Layout',
-  components: {
-    AppMain,
-    Navbar,
-    RightPanel,
-    Settings,
-    Sidebar,
-    TagsView
-  },
-  mixins: [ResizeMixin],
-  computed: {
-    ...mapState({
-      sidebar: state => state.app.sidebar,
-      device: state => state.app.device,
-      showSettings: state => state.settings.showSettings,
-      needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
-    }),
-    classObj() {
+  export default {
+    name: 'Layout',
+    components: {
+      AppMain,
+      Navbar,
+      RightPanel,
+      Settings,
+      Sidebar
+    },
+    mixins: [ResizeMixin],
+    data() {
       return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
+        leftArr: [								// 左侧数组
+          {text: '交换云技术交流', flag: false},
+          {text: '用户组名称', flag: false},
+          {text: '交换云技术交流', flag: false},
+          {text: '用户组名称', flag: false},
+          {text: '交换云技术交流', flag: false},
+          {text: '用户组名称', flag: false},
+          {text: '交换云技术交流', flag: false},
+          {text: '用户组名称', flag: false},
+          {text: '交换云技术交流', flag: false},
+          {text: '用户组名称', flag: false},
+        ],
+      }
+    },
+    computed: {
+      ...mapState({
+        sidebar: state => state.app.sidebar,
+        device: state => state.app.device,
+        showSettings: state => state.settings.showSettings,
+        needTagsView: state => state.settings.tagsView,
+        fixedHeader: state => state.settings.fixedHeader
+      }),
+      classObj() {
+        return {
+          hideSidebar: !this.sidebar.opened,
+          openSidebar: this.sidebar.opened,
+          withoutAnimation: this.sidebar.withoutAnimation,
+          mobile: this.device === 'mobile'
+        }
+      }
+    },
+    methods: {
+      handleClickOutside() {
+        this.$store.dispatch('app/closeSideBar', {withoutAnimation: false})
+      },
+      /**
+       * 左侧tab点击事件
+       */
+      clickTab(item, index) {
+        for (const i in this.leftArr) {
+          this.leftArr[i].flag = false
+        }
+        item.flag = true
       }
     }
-  },
-  methods: {
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -98,5 +132,40 @@ export default {
 
   .mobile .fixed-header {
     width: 100%;
+  }
+
+  .left-warp {
+    float: left;
+    width: 12%;
+    min-height: calc(100vh - 50px);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: -1px 0 0 0 rgba(235, 235, 235, 1);
+    border-right: 1px solid #F0F0F0;
+    border-left: none !important;
+    margin-right: 1%;
+
+    ul li {
+      list-style: none;
+      width: 90%;
+      height: 28px;
+      background: rgba(255, 255, 255, 1);
+      border: 1px solid rgba(255, 213, 213, 1);
+      border-radius: 14px;
+      line-height: 28px;
+      text-indent: 13px;
+      margin-bottom: 12px;
+      color: #FF6D6D;
+      cursor: pointer;
+    }
+  }
+
+  .active { // 左侧单击添加class
+    background: #FF6D6D !important;
+    color: #ffffff !important;
+  }
+
+  .right-warp {
+    float: right;
+    width: 86%;
   }
 </style>
