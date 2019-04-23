@@ -13,9 +13,9 @@
     width: $sideBarWidth !important;
     background-color: $menuBg;
     height: 100%;
-    position: fixed;
+    position: absolute;
     font-size: 0px;
-    top: 0;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: 1001;

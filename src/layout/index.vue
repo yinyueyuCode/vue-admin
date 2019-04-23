@@ -1,11 +1,13 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+    <div :class="{'fixed-header':fixedHeader}">
+      <navbar/>
+    </div>
     <sidebar class="sidebar-container"/>
     <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar/>
-        <div class="left-warp">
+
+      <div class="left-warp">
           <ul>
             <li v-for="(item,index) in leftArr" @click="clickTab(item,index)"
                 :class="{'active':item.flag===true}" :key="index">
@@ -13,11 +15,10 @@
             </li>
           </ul>
         </div>
-        <div class="right-warp">
+      <div class="right-warp">
           <app-main/>
         </div>
         <!--        <tags-view v-if="needTagsView" />-->
-      </div>
       <right-panel v-if="showSettings">
         <settings/>
       </right-panel>
@@ -121,8 +122,8 @@
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 9;
-    width: calc(100% - #{$sideBarWidth});
+    z-index: 1002;
+    width: 100%;
     transition: width 0.28s;
   }
 
