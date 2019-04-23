@@ -1,28 +1,28 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
-    <div  class="fixed-header">
+    <div class="fixed-header">
       <navbar/>
     </div>
     <sidebar class="sidebar-container"/>
     <div :class="{hasTagsView:needTagsView}" class="main-container">
 
       <div class="left-warp">
-          <ul>
-            <li v-for="(item,index) in leftArr" @click="clickTab(item,index)"
-                :class="{'active':item.flag===true}" :key="index">
-              {{item.text}}
-            </li>
-          </ul>
-        </div>
+        <ul>
+          <li v-for="(item,index) in leftArr" @click="clickTab(item,index)"
+              :class="{'active':item.flag===true}" :key="index">
+            {{item.text}}
+          </li>
+        </ul>
+      </div>
       <div class="right-warp">
         <!--侧边栏click menu-->
         <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container"
                    @toggleClick="toggleSideBar"/>
         <!--面包屑导航-->
         <breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
-          <app-main/>
-        </div>
+        <app-main/>
+      </div>
       <right-panel v-if="showSettings">
         <settings/>
       </right-panel>
@@ -149,37 +149,39 @@
 
   .left-warp {
     float: left;
-    width: 12%;
+    width: 160px;
     min-height: calc(100vh - 50px);
     background: rgba(255, 255, 255, 1);
     box-shadow: -1px 0 0 0 rgba(235, 235, 235, 1);
     border-right: 1px solid #F0F0F0;
     border-left: none !important;
-    margin-right: 1%;
+
+    ul {
+      padding-left: 24px;
+    }
 
     ul li {
       list-style: none;
-      width: 90%;
+      /*width: 100%;*/
       height: 28px;
-      background: rgba(255, 255, 255, 1);
-      border: 1px solid rgba(255, 213, 213, 1);
       border-radius: 14px;
       line-height: 28px;
-      text-indent: 13px;
       margin-bottom: 12px;
-      color: #FF6D6D;
+      color: #666666;
       cursor: pointer;
+      font-size: 14px;
     }
   }
 
   .active { // 左侧单击添加class
-    background: #FF6D6D !important;
-    color: #ffffff !important;
+    color: #FF6D6D !important;
+    /*background: #FF6D6D !important;*/
+    /*color: #ffffff !important;*/
   }
 
   .right-warp {
     float: right;
-    width: 86%;
+    width: calc(100vw - 390px)
   }
 
   .hamburger-container {
