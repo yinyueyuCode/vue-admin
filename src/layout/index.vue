@@ -180,8 +180,9 @@
   }
 
   .right-warp {
-    float: right;
-    width: calc(100vw - 390px)
+    float: left;
+    /*width: 100%;*/
+    /*width: calc(100vw - 390px)*/
   }
 
   .hamburger-container {
