@@ -18,7 +18,6 @@
       <div class="right-warp">
           <app-main/>
         </div>
-        <!--        <tags-view v-if="needTagsView" />-->
       <right-panel v-if="showSettings">
         <settings/>
       </right-panel>
